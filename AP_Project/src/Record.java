@@ -93,10 +93,10 @@ public class Record {
 		else if(attr.equals("title")){
 			this.setTitle(value);
 		}
-		else if(attr.equals("year")){
+		else if(attr.equals("month")){
 			this.setmth(Integer.parseInt(value));
 		}
-		else if(attr.equals("month")){
+		else if(attr.equals("year")){
 			this.setyear(Integer.parseInt(value));
 		}
 		else{
