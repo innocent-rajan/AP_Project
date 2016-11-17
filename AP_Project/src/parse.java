@@ -50,7 +50,7 @@ public class parse extends DefaultHandler {
 
 	    @Override
 	    public void endElement(String uri, String localName, String qName) throws SAXException {
-	        if (qName.equalsIgnoreCase("record")) {
+	        if (qName.equalsIgnoreCase("dblp")) {
 	            //add record object to list
 	            empList.add(rec);
 	        }

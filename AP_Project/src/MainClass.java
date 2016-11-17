@@ -25,8 +25,13 @@ public class MainClass {
         //Get Employees list
         List<Record> empList = handler.getEmpList();
         //print employee information
-        for(Record rec : empList)
-            System.out.println(rec);
+        int i=0;
+        for(Record rec : empList){
+        	
+        	i++;
+        	System.out.println(rec.getTitle());
+        }
+        System.out.println(i);
     } catch (ParserConfigurationException | SAXException | IOException e) {
         e.printStackTrace();
     }
