@@ -14,16 +14,20 @@ public class parse extends DefaultHandler {
 	    public List<Record> getEmpList() {
 	        return empList;
 	    }
-	    
+
+	    boolean bAuthors = false;
+	    boolean bYear = false;
+	    boolean bMonth = false;
 	    boolean bTitle = false;
-	    boolean bName = false;
-	    boolean bGender = false;
-	    boolean bRole = false;
+	    boolean bPages = false;
+	    boolean bVol = false;
+	    boolean bUrl = false;
+        boolean bArticle = false;
 
 	    @Override
 	    public void startElement(String uri, String localName, String qName, Attributes attributes)
 	            throws SAXException {
-
+	    	System.out.println("start element    : " + qName);
 	        if (qName.equalsIgnoreCase("dblp")) {
 	            //create a new record and put it in Map
 	            String id = attributes.getValue("id");
@@ -34,35 +38,73 @@ public class parse extends DefaultHandler {
 	                empList = new ArrayList<>();
 	        } else if (qName.equalsIgnoreCase("article")) {
 	            //set boolean values for fields, will be used in setting record variables
-	            bName = true;
-	            System.out.println("Article");
+	            bArticle = true;
+	           // System.out.println("Article");
 	        } else if (qName.equalsIgnoreCase("author")) {
-	            bTitle = true;
-	            System.out.println("Authors");
+	            bAuthors = true;
+	          //  System.out.println("Authors");
 	        } else if (qName.equalsIgnoreCase("pages")) {
-	            bGender = true;
-	            System.out.println("Pages");
-	        } else if (qName.equalsIgnoreCase("book")) {
-	            bRole = true;
-	            System.out.println("Book");
+	            bPages = true;
+	          //  System.out.println("Pages");
+	        } else if (qName.equalsIgnoreCase("year")) {
+	            bYear = true;
+	         //   System.out.println("Year");
+	        }
+	        else if (qName.equalsIgnoreCase("month")) {
+	            bMonth = true;
+	         //   System.out.println("Month");
+	        }
+	        else if (qName.equalsIgnoreCase("Vol")) {
+	            bVol = true;
+	          //  System.out.println("Vol");
+	        }
+	        else if (qName.equalsIgnoreCase("url")) {
+	            bUrl = true;
+	          //  System.out.println("Url");
+	        }
+	        else if (qName.equalsIgnoreCase("Title")) {
+	            bTitle = true;
+	          //  System.out.println("Title");
 	        }
 	    }
 
 	    @Override
 	    public void endElement(String uri, String localName, String qName) throws SAXException {
-	        if (qName.equalsIgnoreCase("dblp")) {
+	    	System.out.println("end element    : " + qName);
+	        if (qName.equalsIgnoreCase("article")) {
 	            //add record object to list
 	            empList.add(rec);
 	        }
+	    	//System.out.println("Size : "+empList.size());
 	    }
 
 	    @Override
 	    public void characters(char ch[], int start, int length) throws SAXException {
-
-	        if (bTitle) {
+	    	System.out.println("start characters : " + new String(ch, start, length));
+	        if (bPages) {
 	            //age element, set record age
-	            rec.setTitle((new String(ch, start, length)));
-	            bTitle = false;
+	            rec.setPages(new String(ch, start, length));
+	            bPages = false;
+	        }
+	        else if(bYear){
+	        	rec.setYear(Integer.parseInt(new String(ch, start, length)));
+	            bYear=false;
+	        }
+	        else if(bVol){
+	        	rec.setVolume(Integer.parseInt(new String(ch, start, length)));
+	            bVol=false;
+	        }
+	        else if(bTitle){
+	        	rec.setTitle(new String(ch, start, length));
+	            bTitle=false;
+	        }
+	        else if(bMonth){
+	        	rec.setMonth(new String(ch, start, length));
+	            bMonth=false;
+	        }
+	        else if(bUrl){
+	        	rec.setUrl(new String(ch, start, length));
+	            bUrl=false;
 	        }
 	    }
 }

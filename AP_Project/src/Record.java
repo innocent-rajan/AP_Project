@@ -3,7 +3,8 @@ import java.util.HashMap;
 
 public class Record {
 	private ArrayList<String> authors = new ArrayList<String>();
-	private int year, month;
+	private int year;
+	String month;
 	private String title;
 	private String pages;
 	private int volume;
@@ -26,12 +27,12 @@ public class Record {
 		this.year = year;
 	}
 
-	public int getMonth() {
+	public String getMonth() {
 		return month;
 	}
 
-	public void setMonth(int month) {
-		this.month = month;
+	public void setMonth(String string1) {
+		this.month = string1;
 	}
 
 	public String getPages() {
@@ -78,7 +79,7 @@ public class Record {
 		this.year=year;
 	}
 	
-	public void setmth(int mth){
+	public void setmth(String mth){
 		this.month=mth;
 	}
 	
@@ -94,7 +95,7 @@ public class Record {
 			this.setTitle(value);
 		}
 		else if(attr.equals("month")){
-			this.setmth(Integer.parseInt(value));
+			this.setmth(value);
 		}
 		else if(attr.equals("year")){
 			this.setyear(Integer.parseInt(value));
@@ -104,6 +105,9 @@ public class Record {
 		}
 	}
 	
-	
+	@Override
+    public String toString() {
+        return "Record:: Author="+this.authors+" Title=" + this.title + " Month=" + this.month + " Year=" + this.year +" Url=" + this.url + "Pages"+this.pages+ "Volume"+this.volume;
+    }
 	
 }
