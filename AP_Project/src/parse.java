@@ -25,9 +25,8 @@ public class parse extends DefaultHandler {
         boolean bArticle = false;
 
 	    @Override
-	    public void startElement(String uri, String localName, String qName, Attributes attributes)
-	            throws SAXException {
-	    	System.out.println("start element    : " + qName);
+	    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+	    	//System.out.println("start element    : " + qName);
 	        if (qName.equalsIgnoreCase("dblp")) {
 	            //create a new record and put it in Map
 	            String id = attributes.getValue("id");
@@ -70,7 +69,7 @@ public class parse extends DefaultHandler {
 
 	    @Override
 	    public void endElement(String uri, String localName, String qName) throws SAXException {
-	    	System.out.println("end element    : " + qName);
+	    	//System.out.println("end element    : " + qName);
 	        if (qName.equalsIgnoreCase("article")) {
 	            //add record object to list
 	            empList.add(rec);
@@ -80,7 +79,7 @@ public class parse extends DefaultHandler {
 
 	    @Override
 	    public void characters(char ch[], int start, int length) throws SAXException {
-	    	System.out.println("start characters : " + new String(ch, start, length));
+	    	//System.out.println("start characters : " + new String(ch, start, length));
 	        if (bPages) {
 	            //age element, set record age
 	            rec.setPages(new String(ch, start, length));
