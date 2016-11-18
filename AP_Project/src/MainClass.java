@@ -22,14 +22,14 @@ public class MainClass {
         System.out.println("Starting.");
         saxParser.parse(new File("dblp.xml"), handler);
         System.out.println("Ending.");
-        //Get Employees list
         List<Record> empList = handler.getEmpList();
-        //print employee information
         int i=0;
         for(Record rec : empList){
-        	//print(rec);
-        	if(rec.getTitle().compareTo("The ITIS'98 forums.")==0)
+        	System.out.println(rec.toString());
+        	/*if(rec.getTitle().compareTo("Optimization and Execution Techniques for Queries With Expensive Methods")==0){
         		flag=1;
+        		break;
+        	}*/
         	i++;
         }
         System.out.println("i: "+i);
@@ -38,6 +38,8 @@ public class MainClass {
     }
     if(flag==1)
     	System.out.println("Found.");
+    else
+    	System.out.println("Not Found.");
     }
 
     public static void print(Record rec){

@@ -63,7 +63,7 @@ public class parse extends DefaultHandler {
 	        }
 	        else if (qName.equalsIgnoreCase("Title")) {
 	            bTitle = true;
-	          //  System.out.println("Title");
+	            //rec.setTitle(qName);
 	        }
 	    }
 
