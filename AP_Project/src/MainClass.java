@@ -35,6 +35,7 @@ public class MainClass {
         	if (i==20)
         		break;
         }*/
+        System.out.println(empList.get(10).toString());
         handler.printall_rec();
         handler.printall_emp();
         System.out.println("i: "+i);
