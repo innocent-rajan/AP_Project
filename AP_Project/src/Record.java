@@ -9,6 +9,15 @@ public class Record {
 	private String pages;
 	private int volume;
 	private String url;
+	private String booktitle;
+	public String getBooktitle() {
+		return booktitle;
+	}
+
+	public void setBooktitle(String booktitle) {
+		this.booktitle = booktitle;
+	}
+
 	private HashMap<String,String> Attributes = new HashMap<String,String>();
 	
 	public Record(){
