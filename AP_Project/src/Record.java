@@ -2,14 +2,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Record {
-	private ArrayList<String> authors = new ArrayList<String>();
+	private ArrayList<String> authors;
 	private int year;
-	String month;
+	private String month;
 	private String title;
 	private String pages;
 	private int volume;
 	private String url;
 	private HashMap<String,String> Attributes = new HashMap<String,String>();
+	
+	public Record(){
+		authors=new ArrayList<String>();
+	}
 	
 	public ArrayList<String> getAuthors() {
 		return authors;
@@ -107,7 +111,7 @@ public class Record {
 	
 	@Override
     public String toString() {
-        return "Record:: Author="+this.authors+" Title=" + this.title + " Month=" + this.month + " Year=" + this.year +" Url=" + this.url + " Pages"+this.pages+ " Volume"+this.volume;
+        return "Record:: Author="+this.authors+" Title=" + this.title + " Month=" + this.month + " Year=" + this.year +" Url=" + this.url + " Pages="+this.pages+ " Volume="+this.volume;
     }
 	
 }

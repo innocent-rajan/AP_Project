@@ -13,12 +13,12 @@ import org.xml.sax.SAXException;
 public class MainClass {
 
     public static void main(String[] args) {
-    	int flag=0;
+    int flag=0;
     System.setProperty("jdk.xml.entityExpansionLimit", "0");
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
     try {
         SAXParser saxParser = saxParserFactory.newSAXParser();
-        parse handler = new parse();
+        parsing handler = new parsing();
         System.out.println("Starting.");
         saxParser.parse(new File("dblp.xml"), handler);
         System.out.println("Ending.");
@@ -31,6 +31,8 @@ public class MainClass {
         		break;
         	}*/
         	i++;
+        	if (i==20)
+        		break;
         }
         System.out.println("i: "+i);
     } catch (ParserConfigurationException | SAXException | IOException e) {
