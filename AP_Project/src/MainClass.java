@@ -24,24 +24,27 @@ public class MainClass {
         System.out.println("Ending.");
         List<Record> empList = handler.getEmpList();
         int i=0;
-        for(Record rec : empList){
+        System.out.println(empList.size());
+        /*for(Record rec : empList){
         	System.out.println(rec.toString());
         	/*if(rec.getTitle().compareTo("Optimization and Execution Techniques for Queries With Expensive Methods")==0){
         		flag=1;
         		break;
         	}*/
-        	i++;
+        	/*i++;
         	if (i==20)
         		break;
-        }
+        }*/
+        handler.printall_rec();
+        handler.printall_emp();
         System.out.println("i: "+i);
     } catch (ParserConfigurationException | SAXException | IOException e) {
         e.printStackTrace();
     }
-    if(flag==1)
+    /*if(flag==1)
     	System.out.println("Found.");
     else
-    	System.out.println("Not Found.");
+    	System.out.println("Not Found.");*/
     }
 
     public static void print(Record rec){
