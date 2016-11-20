@@ -6,104 +6,55 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class parse extends DefaultHandler {
-	 private List<Record> empList = null;
-	    private Record rec = null;
+		private List<Record> recList = new ArrayList<Record>();
+		private String tmpValue;
+		private Record recTmp;
 
-
-	    //getter method for Record list
-	    public List<Record> getEmpList() {
-	        return empList;
+	    public List<Record> getRecList() {
+	        return recList;
 	    }
-
-	    boolean bAuthors = false;
-	    boolean bYear = false;
-	    boolean bMonth = false;
-	    boolean bTitle = false;
-	    boolean bPages = false;
-	    boolean bVol = false;
-	    boolean bUrl = false;
-        boolean bArticle = false;
 
 	    @Override
 	    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-	    	//System.out.println("start element    : " + qName);
-	        if (qName.equalsIgnoreCase("dblp")) {
-	            //create a new record and put it in Map
-	            String id = attributes.getValue("id");
-	            //initialize record object and set id attribute
-	            rec = new Record();
-	            //initialize list
-	            if (empList == null)
-	                empList = new ArrayList<>();
-	        } else if (qName.equalsIgnoreCase("article")) {
-	            //set boolean values for fields, will be used in setting record variables
-	            bArticle = true;
-	           // System.out.println("Article");
-	        } else if (qName.equalsIgnoreCase("author")) {
-	            bAuthors = true;
-	          //  System.out.println("Authors");
-	        } else if (qName.equalsIgnoreCase("pages")) {
-	            bPages = true;
-	          //  System.out.println("Pages");
-	        } else if (qName.equalsIgnoreCase("year")) {
-	            bYear = true;
-	         //   System.out.println("Year");
+	    	if (qName.equalsIgnoreCase("article")) {
+	        	recTmp=new Record();
+	            //recTmp.setVolume(Integer.parseInt(attributes.getValue("volume")));
+	            recTmp.setJournal(attributes.getValue("journal"));
+	            //System.out.println(attributes.getValue("journal"));
 	        }
-	        else if (qName.equalsIgnoreCase("month")) {
-	            bMonth = true;
-	         //   System.out.println("Month");
-	        }
-	        else if (qName.equalsIgnoreCase("Vol")) {
-	            bVol = true;
-	          //  System.out.println("Vol");
-	        }
-	        else if (qName.equalsIgnoreCase("url")) {
-	            bUrl = true;
-	          //  System.out.println("Url");
-	        }
-	        else if (qName.equalsIgnoreCase("Title")) {
-	            bTitle = true;
-	            //rec.setTitle(qName);
+	        if (qName.equalsIgnoreCase("inproceedings")) {
+	        	//recTmp=new Record();
+	            recTmp.setBooktitle(attributes.getValue("booktitle"));
 	        }
 	    }
 
 	    @Override
 	    public void endElement(String uri, String localName, String qName) throws SAXException {
-	    	//System.out.println("end element    : " + qName);
-	        if (qName.equalsIgnoreCase("article")) {
-	            //add record object to list
-	            empList.add(rec);
+	    	if (qName.equalsIgnoreCase("article")) {
+	            recList.add(recTmp);
 	        }
-	    	//System.out.println("Size : "+empList.size());
+	    	if (qName.equalsIgnoreCase("journal")) {
+	            recTmp.setJournal(tmpValue);
+	        }
+	        if (qName.equalsIgnoreCase("pages")) {
+	            recTmp.setPages(tmpValue);
+	        }
+	        if (qName.equalsIgnoreCase("title")) {
+	            recTmp.setTitle(tmpValue);
+	        }
+	        if (qName.equalsIgnoreCase("year")) {
+	            recTmp.setYear(Integer.parseInt(tmpValue));
+	        }
+	        if (qName.equalsIgnoreCase("url")) {
+	            recTmp.setUrl(tmpValue);
+	        }
+	        if(qName.equalsIgnoreCase("author")){
+	           recTmp.getAuthors().add(tmpValue);
+	        }
 	    }
 
 	    @Override
 	    public void characters(char ch[], int start, int length) throws SAXException {
-	    	//System.out.println("start characters : " + new String(ch, start, length));
-	        if (bPages) {
-	            //age element, set record age
-	            rec.setPages(new String(ch, start, length));
-	            bPages = false;
-	        }
-	        else if(bYear){
-	        	rec.setYear(Integer.parseInt(new String(ch, start, length)));
-	            bYear=false;
-	        }
-	        else if(bVol){
-	        	rec.setVolume(Integer.parseInt(new String(ch, start, length)));
-	            bVol=false;
-	        }
-	        else if(bTitle){
-	        	rec.setTitle(new String(ch, start, length));
-	            bTitle=false;
-	        }
-	        else if(bMonth){
-	        	rec.setMonth(new String(ch, start, length));
-	            bMonth=false;
-	        }
-	        else if(bUrl){
-	        	rec.setUrl(new String(ch, start, length));
-	            bUrl=false;
-	        }
+	    	tmpValue = new String(ch, start, length);
 	    }
 }

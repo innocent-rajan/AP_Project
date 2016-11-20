@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class Record {
 	private ArrayList<String> authors;
 	private int year;
-	private String month;
+	private String journal;
 	private String title;
 	private String pages;
 	private int volume;
@@ -40,12 +40,8 @@ public class Record {
 		this.year = year;
 	}
 
-	public String getMonth() {
-		return month;
-	}
-
-	public void setMonth(String string1) {
-		this.month = string1;
+	public String getJournal() {
+		return journal;
 	}
 
 	public String getPages() {
@@ -60,8 +56,8 @@ public class Record {
 		return volume;
 	}
 
-	public void setVolume(int volume) {
-		this.volume = volume;
+	public void setVolume(int d) {
+		this.volume = d;
 	}
 
 	public String getUrl() {
@@ -88,12 +84,8 @@ public class Record {
 		this.title=title;
 	}
 	
-	public void setyear(int year){
-		this.year=year;
-	}
-	
-	public void setmth(String mth){
-		this.month=mth;
+	public void setJournal(String journal){
+		this.journal=journal;
 	}
 	
 	public void addAuthor(String auth){
@@ -107,11 +99,11 @@ public class Record {
 		else if(attr.equals("title")){
 			this.setTitle(value);
 		}
-		else if(attr.equals("month")){
-			this.setmth(value);
+		else if(attr.equals("journal")){
+			this.setJournal(value);
 		}
 		else if(attr.equals("year")){
-			this.setyear(Integer.parseInt(value));
+			this.setYear(Integer.parseInt(value));
 		}
 		else{
 			Attributes.put(attr,value);
@@ -120,7 +112,6 @@ public class Record {
 	
 	@Override
     public String toString() {
-        return "Record:: "+" Title=" + this.title + " Month=" + this.month + " Year=" + this.year +" Url=" + this.url + " Pages="+this.pages+ " Volume="+this.volume;
-    }
-	
+        return "Record:: "+"Authors= "+this.getAuthors()+" Title=" + this.title + " Pages="+this.pages + " Year=" + this.year + " Volume="+this.volume + " Journal/Booktitle=" + this.getJournal()+"/"+this.getBooktitle() +" Url=" + this.url;
+    }	
 }
