@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,23 +13,26 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 public class test extends DefaultHandler {
-    List<Book> bookL;
-    String bookXmlFileName;
+    List<Record> recL;
+    String recXmlFileName;
     String tmpValue;
-    Book bookTmp;
+    Record recTmp;
     SimpleDateFormat sdf= new SimpleDateFormat("yy-MM-dd");
-    public test(String bookXmlFileName) {
-        this.bookXmlFileName = bookXmlFileName;
-        bookL = new ArrayList<Book>();
+    public test(String recXmlFileName) {
+        this.recXmlFileName = recXmlFileName;
+        recL = new ArrayList<Record>();
         parseDocument();
         printDatas();
     }
     private void parseDocument() {
-        // parse
-        SAXParserFactory factory = SAXParserFactory.newInstance();
+    	System.setProperty("jdk.xml.entityExpansionLimit", "0");
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         try {
-            SAXParser parser = factory.newSAXParser();
-            parser.parse(bookXmlFileName, this);
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            //parsing handler = new parsing();
+            System.out.println("Starting.");
+            saxParser.parse(new File("dblp.xml"), this);
+            System.out.println("Ending.");
         } catch (ParserConfigurationException e) {
             System.out.println("ParserConfig error");
         } catch (SAXException e) {
@@ -38,50 +42,40 @@ public class test extends DefaultHandler {
         }
     }
     private void printDatas() {
-       // System.out.println(bookL.size());
-        for (Book tmpB : bookL) {
+       // System.out.println(recL.size());
+        for (Record tmpB : recL) {
             System.out.println(tmpB.toString());
         }
     }
     @Override
     public void startElement(String s, String s1, String elementName, Attributes attributes) throws SAXException {
-        // if current element is book , create new book
+        // if current element is rec , create new rec
         // clear tmpValue on start of element
-
-        if (elementName.equalsIgnoreCase("book")) {
-            bookTmp = new Book();
-            bookTmp.setId(attributes.getValue("id"));
-            bookTmp.setLang(attributes.getValue("lang"));
+        /*if (elementName.equalsIgnoreCase("dblp")) {
+            
+        }*/
+        if (elementName.equalsIgnoreCase("article")) {
+        	recTmp=new Record();
+            recTmp.setTitle(attributes.getValue("title"));
         }
-        // if current element is publisher
-        if (elementName.equalsIgnoreCase("publisher")) {
-            bookTmp.setPublisher(attributes.getValue("country"));
+        if (elementName.equalsIgnoreCase("inproceedings")) {
+            recTmp.setBooktitle(attributes.getValue("booktitle"));
         }
     }
     @Override
     public void endElement(String s, String s1, String element) throws SAXException {
-        // if end of book element add to list
-        if (element.equals("book")) {
-            bookL.add(bookTmp);
+        // if end of rec element add to list
+        if (element.equals("article")) {
+            recL.add(recTmp);
         }
-        if (element.equalsIgnoreCase("isbn")) {
-            bookTmp.setIsbn(tmpValue);
+        if (element.equalsIgnoreCase("pages")) {
+            recTmp.setPages(tmpValue);
         }
         if (element.equalsIgnoreCase("title")) {
-            bookTmp.setTitle(tmpValue);
+            recTmp.setTitle(tmpValue);
         }
         if(element.equalsIgnoreCase("author")){
-           bookTmp.getAuthors().add(tmpValue);
-        }
-        if(element.equalsIgnoreCase("price")){
-            bookTmp.setPrice(Integer.parseInt(tmpValue));
-        }
-        if(element.equalsIgnoreCase("regDate")){
-            try {
-                bookTmp.setRegDate(sdf.parse(tmpValue));
-            } catch (ParseException e) {
-                System.out.println("date parsing error");
-            }
+           recTmp.getAuthors().add(tmpValue);
         }
     }
     @Override
@@ -89,6 +83,6 @@ public class test extends DefaultHandler {
         tmpValue = new String(ac, i, j);
     }
     public static void main(String[] args) {
-        new test("catalog.xml");
+        new test("dblp.xml");
     }
 }

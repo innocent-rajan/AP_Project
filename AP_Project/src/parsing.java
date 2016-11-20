@@ -55,7 +55,8 @@ public class parsing extends DefaultHandler {
 		if (qName.equalsIgnoreCase("dblp")) {
 			rec=new Record();
 		}
-		if (qName.equalsIgnoreCase("article")) {
+		if (qName.equalsIgnoreCase("pages")) {
+			System.out.println("title");
 			rec.setTitle(attributes.getValue("title"));
 			//System.out.println("article");
 			String id =attributes.getValue("title");
@@ -63,7 +64,7 @@ public class parsing extends DefaultHandler {
 			//System.out.println("Volume : "+id);
 		}
         if (qName.equalsIgnoreCase("inproceedings")) {
-            //System.out.println("booktitle");
+            System.out.println("inproceedings");
             rec.setBooktitle(attributes.getValue("booktitle"));
 			String id = attributes.getValue("booktitle");
 			//System.out.println("booktitle : "+id);

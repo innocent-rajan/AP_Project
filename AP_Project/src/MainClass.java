@@ -35,10 +35,10 @@ public class MainClass {
         	if (i==20)
         		break;
         }*/
-        System.out.println(empList.get(10).toString());
-        handler.printall_rec();
-        handler.printall_emp();
-        System.out.println("i: "+i);
+        //System.out.println(empList.get(10).toString());
+        //handler.printall_rec();
+        //handler.printall_emp();
+        //System.out.println("i: "+i);
     } catch (ParserConfigurationException | SAXException | IOException e) {
         e.printStackTrace();
     }

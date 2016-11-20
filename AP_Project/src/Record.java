@@ -120,7 +120,7 @@ public class Record {
 	
 	@Override
     public String toString() {
-        return "Record:: Author="+this.authors+" Title=" + this.title + " Month=" + this.month + " Year=" + this.year +" Url=" + this.url + " Pages="+this.pages+ " Volume="+this.volume;
+        return "Record:: "+" Title=" + this.title + " Month=" + this.month + " Year=" + this.year +" Url=" + this.url + " Pages="+this.pages+ " Volume="+this.volume;
     }
 	
 }
