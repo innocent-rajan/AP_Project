@@ -9,13 +9,14 @@ public class parse extends DefaultHandler {
 		private List<Record> recList = new ArrayList<Record>();
 		private String tmpValue;
 		private Record recTmp;
-
+		//int i=0;
 	    public List<Record> getRecList() {
 	        return recList;
 	    }
 
 	    @Override
 	    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+	    	//i++;
 	    	if (qName.equalsIgnoreCase("article")) {
 	        	recTmp=new Record();
 	            //recTmp.setVolume(Integer.parseInt(attributes.getValue("volume")));
@@ -51,6 +52,7 @@ public class parse extends DefaultHandler {
 	        if(qName.equalsIgnoreCase("author")){
 	           recTmp.getAuthors().add(tmpValue);
 	        }
+	        //System.out.println(recTmp.toString());
 	    }
 
 	    @Override
