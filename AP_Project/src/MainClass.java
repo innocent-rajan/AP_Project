@@ -35,7 +35,7 @@ public class MainClass {
     }
 
     public static void print(Record rec){
-    	//System.out.println("Month : " +rec.getMonth());
+    	System.out.println("Month : " +rec.getMonth());
     	System.out.println("Year : " +rec.getYear());
     	System.out.println("Pages : " +rec.getPages());
     	System.out.println("Title : " +rec.getTitle());
