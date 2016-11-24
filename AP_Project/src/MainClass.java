@@ -26,8 +26,8 @@ public class MainClass {
         for(Record rec : empList) {
         	System.out.println(rec.toString());
         	i++;
-        	/*if (i==20)
-        		break;*/
+        	if (i==20)
+        		break;
         	}
     	} catch (ParserConfigurationException | SAXException | IOException e) {
     		e.printStackTrace();
