@@ -6,31 +6,32 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class parse extends DefaultHandler {
-		private List<Record> recList = new ArrayList<Record>();
-		private String tmpValue;
-		private Record recTmp;
-		//int i=0;
+		protected List<Record> recList = new ArrayList<Record>();
+		protected String tmpValue;
+		protected Record recTmp;
+		protected int i=0;
+		protected Query1 q1=new Query1();
 	    public List<Record> getRecList() {
 	        return recList;
 	    }
 
 	    @Override
 	    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-	    	//i++;
+	    	i++;
 	    	if (qName.equalsIgnoreCase("article")) {
 	        	recTmp=new Record();
-	            //recTmp.setVolume(Integer.parseInt(attributes.getValue("volume")));
 	            recTmp.setJournal(attributes.getValue("journal"));
-	            //System.out.println(attributes.getValue("journal"));
 	        }
 	        if (qName.equalsIgnoreCase("inproceedings")) {
-	        	//recTmp=new Record();
 	            recTmp.setBooktitle(attributes.getValue("booktitle"));
 	        }
 	    }
 
 	    @Override
 	    public void endElement(String uri, String localName, String qName) throws SAXException {
+	    	if(qName.equalsIgnoreCase("author")){
+		           recTmp.addAuthor(tmpValue);
+		    }
 	    	if (qName.equalsIgnoreCase("article")) {
 	            recList.add(recTmp);
 	        }
@@ -49,10 +50,21 @@ public class parse extends DefaultHandler {
 	        if (qName.equalsIgnoreCase("url")) {
 	            recTmp.setUrl(tmpValue);
 	        }
-	        if(qName.equalsIgnoreCase("author")){
-	           recTmp.getAuthors().add(tmpValue);
+	        for (int i=0;i<recTmp.getAuthors().size();++i){
+	        	System.out.println("Entering");
+	    		String aut = recTmp.getAuthors().get(i);
+	    		System.out.println(aut);
+	    		if(aut.equals("Millist W. Vincent")){
+	    		//if (recTmp.getAuthors().equals("Millist W. Vincent")){
+	    			System.out.println("Found.");
+	    			System.out.println(recTmp.toString());
+	    			System.exit(0);
+	    			break;
+	    		}
 	        }
-	        //System.out.println(recTmp.toString());
+	        System.out.println(i);
+	        System.out.println(recTmp.toString());
+	        //
 	    }
 
 	    @Override
