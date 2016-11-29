@@ -34,7 +34,7 @@ public class MainClass {
     	}	
     }
 
-    public static void print(Record rec){
+    /*public static void print(Record rec){
     	//System.out.println("Month : " +rec.getMonth());
     	System.out.println("Year : " +rec.getYear());
     	System.out.println("Pages : " +rec.getPages());
@@ -42,6 +42,6 @@ public class MainClass {
     	System.out.println("Url : " +rec.getUrl());
     	System.out.println("Volume : " +rec.getVolume());
     	System.out.println("Authors : " +rec.getAuthors());
-    }
+    }*/
     
 }
