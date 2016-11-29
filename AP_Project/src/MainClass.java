@@ -3,6 +3,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -13,26 +14,32 @@ import org.xml.sax.SAXException;
 public class MainClass {
 
     public static void main(String[] args) {
-    System.setProperty("jdk.xml.entityExpansionLimit", "0");
-    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-    try {
-    	SAXParser saxParser = saxParserFactory.newSAXParser();
-        parse handler = new parse();
-        System.out.println("Starting.");
-        saxParser.parse(new File("dblp.xml"), handler);
-        System.out.println("Ending.");
-        List<Record> empList = handler.getRecList();
+    	String aut=new String();
+    	Scanner user_input = new Scanner( System.in );
+		System.out.print("Enter author : ");
+		aut=user_input.nextLine();
+		parse handler = new parse();
+		handler.setAuthor_s(aut);
+		System.setProperty("jdk.xml.entityExpansionLimit", "0");
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		try {
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			System.out.println("Starting.");
+			saxParser.parse(new File("dblp.xml"), handler);
+			System.out.println("Ending.");
+        //List<Record> empList = handler.getRecList();
+        /*List<www> empList = handler.getauthList();
         int i=0;
-        for(Record rec : empList) {
-        	System.out.println(rec.toString());
+        for(www www : empList) {
+        	System.out.println(www.toString());
         	i++;
-        	if (i==20)
+        	if (i==100)
         		break;
-        	}
-    	} catch (ParserConfigurationException | SAXException | IOException e) {
-    		e.printStackTrace();
-    	}	
-    }
+        	}*/
+    		} catch (ParserConfigurationException | SAXException | IOException e) {
+    			e.printStackTrace();
+    		}	
+    	}
 
     /*public static void print(Record rec){
     	//System.out.println("Month : " +rec.getMonth());
