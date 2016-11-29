@@ -17,8 +17,6 @@ public class Record {
 	public void setBooktitle(String booktitle) {
 		this.booktitle = booktitle;
 	}
-
-	private HashMap<String,String> Attributes = new HashMap<String,String>();
 	
 	public Record(){
 		authors=new ArrayList<String>();
@@ -68,14 +66,6 @@ public class Record {
 		this.url = url;
 	}
 
-	public HashMap<String, String> getAttributes() {
-		return Attributes;
-	}
-
-	public void setAttributes(HashMap<String, String> attributes) {
-		Attributes = attributes;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -104,9 +94,6 @@ public class Record {
 		}
 		else if(attr.equals("year")){
 			this.setYear(Integer.parseInt(value));
-		}
-		else{
-			Attributes.put(attr,value);
 		}
 	}
 	
