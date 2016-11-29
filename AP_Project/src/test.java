@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +54,13 @@ public class test extends DefaultHandler {
             
         }*/
         if (elementName.equalsIgnoreCase("article")) {
+        	System.out.println("article	");
         	recTmp=new Record();
             recTmp.setTitle(attributes.getValue("title"));
         }
         if (elementName.equalsIgnoreCase("inproceedings")) {
+        	System.out.println("inproceeding");
+        	recTmp=new Record();
             recTmp.setBooktitle(attributes.getValue("booktitle"));
         }
     }
