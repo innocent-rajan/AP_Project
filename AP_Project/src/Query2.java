@@ -8,19 +8,19 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class Query2 extends DefaultHandler {
-		Boolean iswww,isAuthor;
-		protected ArrayList<Record> recList = new ArrayList<Record>();
-		protected String tmpValue;
-		protected Record recTmp;
+		Boolean iswww=false,isAuthor=false;
+		private ArrayList<Record> recList = new ArrayList<Record>();
+		private String tmpValue;
+		private Record recTmp;
 		private Authors tmpAut;
-		protected int i=0;
-		protected Query1 q1=new Query1();
-		protected ArrayList<www> autList= new ArrayList<www>();
-		protected www autTmp;
+		private int i=0;
+		private ArrayList<String> name= new ArrayList<String>();
+		//private Query1 q1=new Query1();
+		private ArrayList<Authors> autList= new ArrayList<Authors>();
 	    public ArrayList<Record> getRecList() {
 	        return recList;
 	    }
-	    public ArrayList<www> getauthList() {
+	    public ArrayList<Authors> getauthList() {
 	        return autList;
 	    }
 	    private String author_s=new String();
@@ -43,7 +43,7 @@ public class Query2 extends DefaultHandler {
 	            //recTmp.setJournal(attributes.getValue("journal"));
 	        }
 	    	if (qName.equalsIgnoreCase("www")) {
-	    		autTmp=new www();
+	    		tmpAut=new Authors();
 	            au=1;
 	        }
 	    }
@@ -54,19 +54,20 @@ public class Query2 extends DefaultHandler {
 	    	if(au==1)
 	    	{
 	    		if(qName.equalsIgnoreCase("author")){
-	    			autTmp.setAuthor(tmpValue);
+	    			tmpAut.setNames(tmpValue);
+	    			iswww = true;
+	    			isAuthor = true;
 	    			//System.out.println(autTmp);
 			    }
 	    	}
 	    	if (qName.equalsIgnoreCase("www")) {
-    			autList.add(autTmp);
+    			autList.add(tmpAut);
     		}
 	    	if(qName.equalsIgnoreCase("author")){ 
+	    		//author_s = ;
 	    		a=find_author(tmpValue);
 		    }
 	    	if (a==1){
-	    		isAuthor = true;
-	    		iswww = true;
 	    		if(qName.equalsIgnoreCase("author")){
 	    			recTmp.addAuthor(tmpValue);
 	    		}
@@ -100,13 +101,13 @@ public class Query2 extends DefaultHandler {
 	    public void characters(char ch[], int start, int length) throws SAXException {
 	    	tmpValue = new String(ch, start, length);
 	    	
-	    	if(iswww && isAuthor){
+	    	/*if(iswww && isAuthor){
 	    		if(tmpAut.getMap_val()==-1){
 	    			tmpAut.setMap_val(tmpAut.getN());
 	    		}
 	    	}
-	    	hash.put(tmpValue,tmpAut.getMap_val());
-	    	isAuthor=false;
+	    	//hash.put(tmpValue,tmpAut.getMap_val());
+	    	isAuthor=false;*/
 	    }
 	    
 	    int find_author(String author){

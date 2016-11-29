@@ -14,7 +14,7 @@ public class Query1 extends DefaultHandler {
 		protected Record recTmp;
 		private Authors tmpAut;
 		protected int i=0;
-		//protected Query1 q1=new Query1();
+		protected Query1 q1=new Query1();
 		protected ArrayList<www> autList= new ArrayList<www>();
 		protected www autTmp;
 	    public ArrayList<Record> getRecList() {

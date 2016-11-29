@@ -2,6 +2,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,14 +13,35 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 public class MainClass {
-
+	static Query2 handler = new Query2();
     public static void main(String[] args) {
     	String aut=new String();
     	Scanner user_input = new Scanner( System.in );
+    	parseall();
 		System.out.print("Enter author : ");
 		aut=user_input.nextLine();
-		parse handler = new parse();
 		handler.setAuthor_s(aut);
+    	ArrayList<Authors> au=handler.getauthList();
+    	for(Authors Author : au) {
+    		for(int i=0;i<Author.getNames().size();++i){
+    			System.out.println(Author.getNames().get(i));
+    			if(Author.getNames().get(i).equals("Timothy R. Chaffin")){
+    				System.exit(0);
+    			}
+    		}
+    	}
+		/*for(Authors Author : au) {
+			for(int i=0;i<Author.getNames().size();++i){
+				if(Author.getNames().get(i).equals(aut)){
+					System.out.println(Author.getNames().get(i));
+					aut=Author.getNames().get(i);
+					parseall();
+					}
+        		}
+			}*/
+    	}
+
+    public static void parseall(){
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		try {
@@ -27,20 +49,11 @@ public class MainClass {
 			System.out.println("Starting.");
 			saxParser.parse(new File("dblp.xml"), handler);
 			System.out.println("Ending.");
-        //List<Record> empList = handler.getRecList();
-        /*List<www> empList = handler.getauthList();
-        int i=0;
-        for(www www : empList) {
-        	System.out.println(www.toString());
-        	i++;
-        	if (i==100)
-        		break;
-        	}*/
     		} catch (ParserConfigurationException | SAXException | IOException e) {
     			e.printStackTrace();
-    		}	
     	}
-
+    }
+    
     /*public static void print(Record rec){
     	//System.out.println("Month : " +rec.getMonth());
     	System.out.println("Year : " +rec.getYear());
