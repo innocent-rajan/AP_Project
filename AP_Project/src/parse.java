@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -9,13 +11,29 @@ public class parse extends DefaultHandler {
 		protected ArrayList<Record> recList = new ArrayList<Record>();
 		protected String tmpValue;
 		protected Record recTmp;
+		private Authors author=new Authors();
 		protected int i=0;
 		protected Query1 q1=new Query1();
-		protected ArrayList<String> auth=new ArrayList<String>();
-	    public List<Record> getRecList() {
+		protected ArrayList<www> autList= new ArrayList<www>();
+		protected www autTmp;
+	    public ArrayList<Record> getRecList() {
 	        return recList;
 	    }
-
+	    public ArrayList<www> getauthList() {
+	        return autList;
+	    }
+	    private String author_s=new String();
+	    private HashMap hash = new HashMap();
+	    
+	    int a,au,d;
+	    
+	    public String getAuthor_s() {
+			return author_s;
+		}
+		public void setAuthor_s(String author_s) {
+			this.author_s = author_s;
+		}
+	    
 	    @Override
 	    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 	    	i++;
@@ -23,18 +41,26 @@ public class parse extends DefaultHandler {
 	        	recTmp=new Record();
 	            //recTmp.setJournal(attributes.getValue("journal"));
 	        }
-	        /*if (qName.equalsIgnoreCase("inproceedings")) {
-	            //recTmp.setBooktitle(attributes.getValue("booktitle"));
-	        }*/
 	    	if (qName.equalsIgnoreCase("www")) {
-	            
+	    		autTmp=new www();
+	            au=1;
 	        }
 	    }
 
 	    @Override
 	    public void endElement(String uri, String localName, String qName) throws SAXException {
-	    	int a=0;  
-	    	/*if(qName.equalsIgnoreCase("author")){ 
+	    	d=0;
+	    	if(au==1)
+	    	{
+	    		if(qName.equalsIgnoreCase("author")){
+	    			autTmp.setAuthor(tmpValue);
+	    			//System.out.println(autTmp);
+			    }
+	    	}
+	    	if (qName.equalsIgnoreCase("www")) {
+    			autList.add(autTmp);
+    		}
+	    	if(qName.equalsIgnoreCase("author")){ 
 	    		a=find_author(tmpValue);
 		    }
 	    	if (a==1){
@@ -58,10 +84,12 @@ public class parse extends DefaultHandler {
 	    		}
 	    		if (qName.equalsIgnoreCase("url")) {
 	    			recTmp.setUrl(tmpValue);
+	    			d=1;
 	    		}
-	    	}*/
-	        System.out.println(i);
-	        //System.out.println(recTmp.toString());
+	    	}
+	        //System.out.println(i);
+	    	if(d==1)
+	    		System.out.println(recTmp.toString());
 	        //
 	    }
 
@@ -71,7 +99,11 @@ public class parse extends DefaultHandler {
 	    }
 	    
 	    int find_author(String author){
-	    	
-	    	return 0;
+	    	if(author_s.equalsIgnoreCase(author)){
+	    		System.out.println("Found");
+	    		return 1;
+	    	}
+	    	else
+	    		return 0;
 	    }
 }
