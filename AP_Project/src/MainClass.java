@@ -22,12 +22,15 @@ public class MainClass {
 		aut=user_input.nextLine();
 		handler.setAuthor_s(aut);
     	ArrayList<Authors> au=handler.getauthList();
+    	ArrayList<String> name = new ArrayList<String>();
     	for(Authors Author : au) {
     		for(int i=0;i<Author.getNames().size();++i){
-    			System.out.println(Author.getNames().get(i));
-    			if(Author.getNames().get(i).equals("Timothy R. Chaffin")){
-    				System.exit(0);
+    			if(Author.getNames().get(i).equals(aut)){
+    				System.out.println(Author.getNames().size());
+    				//System.exit(0);
     			}
+    			for(int j=0;j<Author.getNames().size();++j)
+    				name.add(Author.getNames().get(j));
     		}
     	}
 		/*for(Authors Author : au) {
@@ -39,6 +42,8 @@ public class MainClass {
 					}
         		}
 			}*/
+    	for(int index =0;index<name.size();++index)
+    		System.out.println(name.get(index));
     	}
 
     public static void parseall(){
