@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class Record {
@@ -97,13 +96,6 @@ public class Record {
 			this.setYear(Integer.parseInt(value));
 		}
 	}
-	
-	public static Comparator<Record> rec_c=new Comparator<Record>(){
-    	public int compare(Record r1,Record r2){
-    		int y1=r1.getYear();
-    		int y2=r2.getYear();
-    		return y1-y2;
-    	}};
 	
 	@Override
     public String toString() {

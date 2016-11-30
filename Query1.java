@@ -1,26 +1,26 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class Query2 extends DefaultHandler {
+public class Query1 extends DefaultHandler {
 		Boolean iswww=false,isAuthor=false;
 		private ArrayList<Record> recList = new ArrayList<Record>();
 		private String tmpValue;
 		private Record recTmp;
 		private Authors tmpAut;
-<<<<<<< HEAD
-		private int i=0;
-		private ArrayList<String> name= new ArrayList<String>();
-		//private Query1 q1=new Query1();
-=======
-		private int i=0,found=0;;
-		private ArrayList<String> name= new ArrayList<String>();
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
+		private String title=new String();
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+			System.out.println(this.title);
+		}
+		private int found=0,ft=0;
 		private ArrayList<Authors> autList= new ArrayList<Authors>();
 	    public ArrayList<Record> getRecList() {
 	        return recList;
@@ -29,7 +29,6 @@ public class Query2 extends DefaultHandler {
 	        return autList;
 	    }
 	    private ArrayList<String> author_s=new ArrayList<String>();
-	    private HashMap hash = new HashMap();
 	    
 	    int a,au,d;
 	    
@@ -42,19 +41,11 @@ public class Query2 extends DefaultHandler {
 	    
 	    @Override
 	    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-	    	i++;
 	    	if (qName.equalsIgnoreCase("article")) {
 	        	recTmp=new Record();
-	            //recTmp.setJournal(attributes.getValue("journal"));
 	        }
-<<<<<<< HEAD
-	    	if (qName.equalsIgnoreCase("www")) {
+	    	if (qName.equalsIgnoreCase("www")){
 	    		tmpAut=new Authors();
-=======
-	    	if ((qName.equalsIgnoreCase("www")) && (attributes.getValue("key").contains("homepages/"))){
-	    		tmpAut=new Authors();
-	    		iswww = true;
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
 	            au=1;
 	        }
 	    }
@@ -68,25 +59,18 @@ public class Query2 extends DefaultHandler {
 	    			tmpAut.setNames(tmpValue);
 	    			iswww = true;
 	    			isAuthor = true;
-	    			//System.out.println(autTmp);
 			    }
 	    	}
 	    	if (qName.equalsIgnoreCase("www")) {
     			autList.add(tmpAut);
     		}
 	    	if(qName.equalsIgnoreCase("author")){ 
-<<<<<<< HEAD
-	    		//author_s = ;
-	    		a=find_author(tmpValue);
-=======
 	    		find_author(tmpValue);
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
 		    }
-<<<<<<< HEAD
-	    	if (a==1){
-=======
-	    	if (found==1){
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
+	    	if (qName.equalsIgnoreCase("title")) {
+    			find_title(tmpValue);
+    		}
+	    	if (found==1||ft==1){
 	    		if(qName.equalsIgnoreCase("author")){
 	    			recTmp.addAuthor(tmpValue);
 	    		}
@@ -105,31 +89,21 @@ public class Query2 extends DefaultHandler {
 	    		if (qName.equalsIgnoreCase("year")) {
 	    			recTmp.setYear(Integer.parseInt(tmpValue));
 	    		}
+	    		if (qName.equalsIgnoreCase("journal")) {
+	    			recTmp.setJournal(tmpValue);;
+	    		}
 	    		if (qName.equalsIgnoreCase("url")) {
 	    			recTmp.setUrl(tmpValue);
 	    			d=1;
 	    		}
 	    	}
-	        //System.out.println(i);
 	    	if(d==1)
 	    		System.out.println(recTmp.toString());
-	        //
 	    }
 
 	    @Override
 	    public void characters(char ch[], int start, int length) throws SAXException {
 	    	tmpValue = new String(ch, start, length);
-<<<<<<< HEAD
-	    	
-	    	/*if(iswww && isAuthor){
-	    		if(tmpAut.getMap_val()==-1){
-	    			tmpAut.setMap_val(tmpAut.getN());
-	    		}
-	    	}
-	    	//hash.put(tmpValue,tmpAut.getMap_val());
-	    	isAuthor=false;*/
-=======
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
 	    }
 	    
 	    void find_author(String author){
@@ -140,38 +114,20 @@ public class Query2 extends DefaultHandler {
 	    		}
 	    	}
 	    }
-	    void make_hash(){
-	    	String aut=new String();
-	    	int ct = -1;
-	    	for(Authors Author : autList) {
-	    		Author.setMap_val(++ct);
-	    		for(int i=0;i<Author.getNames().size();++i){
-//	    			System.out.println()
-//	    			if(Author.getNames().get(i).equalsIgnoreCase(aut)){
-//	    				int size = Author.getNames().size();
-//	    				for(int j=0;j<size;++j){
-//	        				name.add(Author.getNames().get(j));
-//	        				if(Author.getMap_val()==-1){
-//	        	    			Author.setMap_val(Author.getN());
-//	        	    		}
-//	    				}
-	    			if(ct%100000 == 0)
-	    			{
-	    				System.out.println(Author.getNames().get(0));
-	    			}
-	    				hash.put(Author.getNames().get(i),Author.getMap_val());
-	    			}
-	    		}
-	    		System.out.println(hash.size());
-//	    		System.out.println(hash.values());
-	    		System.out.println(hash.get(autList.get(0).getNames().get(0)));
-	    }
-	    	/*if(au.getNames().get(0)!=null){
-	    		if(au.getMap_val()==-1){
-	    			au.setMap_val(au.getN());
-	    		}
+	    
+	    void find_title(String title){
+	    	ft=0;
+	    	if(this.getTitle().equalsIgnoreCase(title)){
+	    		System.out.println("title");
+	    		//System.out.println(recTmp.toString());
+	    		ft=1;
 	    	}
-	    	if(tmpAut!=null)
-	    		hash.put(tmpValue,tmpAut.getMap_val());
-	    	isAuthor=false;*/
+	    }
+	    
+	    public void sort(){
+	    	Collections.sort(recList,Record.rec_c);
+	    	for(Record rec1: recList){
+				System.out.println(rec1);
+		   }
+	    }
 }
