@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -9,7 +12,15 @@ public class Query1 extends DefaultHandler {
 		private String tmpValue;
 		private Record recTmp;
 		private Authors tmpAut;
-		private int found=0;
+		private String title=new String();
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+			System.out.println(this.title);
+		}
+		private int found=0,ft=0;
 		private ArrayList<Authors> autList= new ArrayList<Authors>();
 	    public ArrayList<Record> getRecList() {
 	        return recList;
@@ -33,7 +44,7 @@ public class Query1 extends DefaultHandler {
 	    	if (qName.equalsIgnoreCase("article")) {
 	        	recTmp=new Record();
 	        }
-	    	if (qName.equalsIgnoreCase("www")) {
+	    	if (qName.equalsIgnoreCase("www")){
 	    		tmpAut=new Authors();
 	            au=1;
 	        }
@@ -54,10 +65,12 @@ public class Query1 extends DefaultHandler {
     			autList.add(tmpAut);
     		}
 	    	if(qName.equalsIgnoreCase("author")){ 
-	    		//author_s = ;
 	    		find_author(tmpValue);
 		    }
-	    	if (found==1){
+	    	if (qName.equalsIgnoreCase("title")) {
+    			find_title(tmpValue);
+    		}
+	    	if (found==1||ft==1){
 	    		if(qName.equalsIgnoreCase("author")){
 	    			recTmp.addAuthor(tmpValue);
 	    		}
@@ -75,6 +88,9 @@ public class Query1 extends DefaultHandler {
 	    		}
 	    		if (qName.equalsIgnoreCase("year")) {
 	    			recTmp.setYear(Integer.parseInt(tmpValue));
+	    		}
+	    		if (qName.equalsIgnoreCase("journal")) {
+	    			recTmp.setJournal(tmpValue);;
 	    		}
 	    		if (qName.equalsIgnoreCase("url")) {
 	    			recTmp.setUrl(tmpValue);
@@ -97,5 +113,21 @@ public class Query1 extends DefaultHandler {
 	    			found=1;
 	    		}
 	    	}
+	    }
+	    
+	    void find_title(String title){
+	    	ft=0;
+	    	if(this.getTitle().equalsIgnoreCase(title)){
+	    		System.out.println("title");
+	    		//System.out.println(recTmp.toString());
+	    		ft=1;
+	    	}
+	    }
+	    
+	    public void sort(){
+	    	Collections.sort(recList,Record.rec_c);
+	    	for(Record rec1: recList){
+				System.out.println(rec1);
+		   }
 	    }
 }
