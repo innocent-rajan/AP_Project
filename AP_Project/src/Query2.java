@@ -8,31 +8,30 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class Query2 extends DefaultHandler {
-		Boolean iswww,isAuthor;
-		protected ArrayList<Record> recList = new ArrayList<Record>();
-		protected String tmpValue;
-		protected Record recTmp;
+		Boolean iswww=false,isAuthor=false;
+		private ArrayList<Record> recList = new ArrayList<Record>();
+		private String tmpValue;
+		private Record recTmp;
 		private Authors tmpAut;
-		protected int i=0;
-		protected Query1 q1=new Query1();
-		protected ArrayList<www> autList= new ArrayList<www>();
-		protected www autTmp;
+		private int i=0,found=0;;
+		private ArrayList<String> name= new ArrayList<String>();
+		private ArrayList<Authors> autList= new ArrayList<Authors>();
 	    public ArrayList<Record> getRecList() {
 	        return recList;
 	    }
-	    public ArrayList<www> getauthList() {
+	    public ArrayList<Authors> getauthList() {
 	        return autList;
 	    }
-	    private String author_s=new String();
+	    private ArrayList<String> author_s=new ArrayList<String>();
 	    private HashMap hash = new HashMap();
 	    
 	    int a,au,d;
 	    
-	    public String getAuthor_s() {
+	    public ArrayList<String> getAuthor_s() {
 			return author_s;
 		}
-		public void setAuthor_s(String author_s) {
-			this.author_s = author_s;
+		public void setAuthor_s(ArrayList<String> author) {
+			this.author_s = author;
 		}
 	    
 	    @Override
@@ -42,8 +41,9 @@ public class Query2 extends DefaultHandler {
 	        	recTmp=new Record();
 	            //recTmp.setJournal(attributes.getValue("journal"));
 	        }
-	    	if (qName.equalsIgnoreCase("www")) {
-	    		autTmp=new www();
+	    	if ((qName.equalsIgnoreCase("www")) && (attributes.getValue("key").contains("homepages/"))){
+	    		tmpAut=new Authors();
+	    		iswww = true;
 	            au=1;
 	        }
 	    }
@@ -54,19 +54,19 @@ public class Query2 extends DefaultHandler {
 	    	if(au==1)
 	    	{
 	    		if(qName.equalsIgnoreCase("author")){
-	    			autTmp.setAuthor(tmpValue);
+	    			tmpAut.setNames(tmpValue);
+	    			iswww = true;
+	    			isAuthor = true;
 	    			//System.out.println(autTmp);
 			    }
 	    	}
 	    	if (qName.equalsIgnoreCase("www")) {
-    			autList.add(autTmp);
+    			autList.add(tmpAut);
     		}
 	    	if(qName.equalsIgnoreCase("author")){ 
-	    		a=find_author(tmpValue);
+	    		find_author(tmpValue);
 		    }
-	    	if (a==1){
-	    		isAuthor = true;
-	    		iswww = true;
+	    	if (found==1){
 	    		if(qName.equalsIgnoreCase("author")){
 	    			recTmp.addAuthor(tmpValue);
 	    		}
@@ -99,21 +99,48 @@ public class Query2 extends DefaultHandler {
 	    @Override
 	    public void characters(char ch[], int start, int length) throws SAXException {
 	    	tmpValue = new String(ch, start, length);
-	    	
-	    	if(iswww && isAuthor){
-	    		if(tmpAut.getMap_val()==-1){
-	    			tmpAut.setMap_val(tmpAut.getN());
-	    		}
-	    	}
-	    	hash.put(tmpValue,tmpAut.getMap_val());
-	    	isAuthor=false;
 	    }
 	    
-	    int find_author(String author){
-	    	if(author_s.equalsIgnoreCase(author)){
-	    		return 1;
+	    void find_author(String author){
+	    	found=0;
+	    	for(int i=0;i<author_s.size();++i){
+	    		if(author_s.get(i).equalsIgnoreCase(author)){
+	    			found=1;
+	    		}
 	    	}
-	    	else
-	    		return 0;
 	    }
+	    void make_hash(){
+	    	String aut=new String();
+	    	int ct = -1;
+	    	for(Authors Author : autList) {
+	    		Author.setMap_val(++ct);
+	    		for(int i=0;i<Author.getNames().size();++i){
+//	    			System.out.println()
+//	    			if(Author.getNames().get(i).equalsIgnoreCase(aut)){
+//	    				int size = Author.getNames().size();
+//	    				for(int j=0;j<size;++j){
+//	        				name.add(Author.getNames().get(j));
+//	        				if(Author.getMap_val()==-1){
+//	        	    			Author.setMap_val(Author.getN());
+//	        	    		}
+//	    				}
+	    			if(ct%100000 == 0)
+	    			{
+	    				System.out.println(Author.getNames().get(0));
+	    			}
+	    				hash.put(Author.getNames().get(i),Author.getMap_val());
+	    			}
+	    		}
+	    		System.out.println(hash.size());
+//	    		System.out.println(hash.values());
+	    		System.out.println(hash.get(autList.get(0).getNames().get(0)));
+	    }
+	    	/*if(au.getNames().get(0)!=null){
+	    		if(au.getMap_val()==-1){
+	    			au.setMap_val(au.getN());
+	    		}
+	    	}
+	    	if(tmpAut!=null)
+	    		hash.put(tmpValue,tmpAut.getMap_val());
+	    	isAuthor=false;*/
 }
