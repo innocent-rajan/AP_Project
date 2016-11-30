@@ -43,13 +43,16 @@ public class parse extends DefaultHandler {
 	        }
 	    	if (qName.equalsIgnoreCase("www")) {
 	    		autTmp=new www();
-	            au=1;
+	            au=1; //author exist in www
 	        }
 	    }
 
 	    @Override
 	    public void endElement(String uri, String localName, String qName) throws SAXException {
 	    	d=0;
+	    	if (qName.equalsIgnoreCase("www")) {
+    			autList.add(autTmp);
+    		}
 	    	if(au==1)
 	    	{
 	    		if(qName.equalsIgnoreCase("author")){
@@ -57,13 +60,10 @@ public class parse extends DefaultHandler {
 	    			//System.out.println(autTmp);
 			    }
 	    	}
-	    	if (qName.equalsIgnoreCase("www")) {
-    			autList.add(autTmp);
-    		}
 	    	if(qName.equalsIgnoreCase("author")){ 
 	    		a=find_author(tmpValue);
 		    }
-	    	if (a==1){
+	    	if (a==1){ //for author search in record
 	    		if(qName.equalsIgnoreCase("author")){
 	    			recTmp.addAuthor(tmpValue);
 	    		}
