@@ -13,14 +13,8 @@ public class Query2 extends DefaultHandler {
 		private String tmpValue;
 		private Record recTmp;
 		private Authors tmpAut;
-<<<<<<< HEAD
-		private int i=0;
-		private ArrayList<String> name= new ArrayList<String>();
-		//private Query1 q1=new Query1();
-=======
 		private int i=0,found=0;;
 		private ArrayList<String> name= new ArrayList<String>();
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
 		private ArrayList<Authors> autList= new ArrayList<Authors>();
 	    public ArrayList<Record> getRecList() {
 	        return recList;
@@ -47,14 +41,9 @@ public class Query2 extends DefaultHandler {
 	        	recTmp=new Record();
 	            //recTmp.setJournal(attributes.getValue("journal"));
 	        }
-<<<<<<< HEAD
-	    	if (qName.equalsIgnoreCase("www")) {
-	    		tmpAut=new Authors();
-=======
 	    	if ((qName.equalsIgnoreCase("www")) && (attributes.getValue("key").contains("homepages/"))){
 	    		tmpAut=new Authors();
 	    		iswww = true;
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
 	            au=1;
 	        }
 	    }
@@ -74,19 +63,7 @@ public class Query2 extends DefaultHandler {
 	    	if (qName.equalsIgnoreCase("www")) {
     			autList.add(tmpAut);
     		}
-	    	if(qName.equalsIgnoreCase("author")){ 
-<<<<<<< HEAD
-	    		//author_s = ;
-	    		a=find_author(tmpValue);
-=======
-	    		find_author(tmpValue);
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
-		    }
-<<<<<<< HEAD
-	    	if (a==1){
-=======
 	    	if (found==1){
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
 	    		if(qName.equalsIgnoreCase("author")){
 	    			recTmp.addAuthor(tmpValue);
 	    		}
@@ -119,27 +96,8 @@ public class Query2 extends DefaultHandler {
 	    @Override
 	    public void characters(char ch[], int start, int length) throws SAXException {
 	    	tmpValue = new String(ch, start, length);
-<<<<<<< HEAD
-	    	
-	    	/*if(iswww && isAuthor){
-	    		if(tmpAut.getMap_val()==-1){
-	    			tmpAut.setMap_val(tmpAut.getN());
-	    		}
-	    	}
-	    	//hash.put(tmpValue,tmpAut.getMap_val());
-	    	isAuthor=false;*/
-=======
->>>>>>> branch 'master' of https://github.com/innocent-rajan/AP_Project
 	    }
 	    
-	    void find_author(String author){
-	    	found=0;
-	    	for(int i=0;i<author_s.size();++i){
-	    		if(author_s.get(i).equalsIgnoreCase(author)){
-	    			found=1;
-	    		}
-	    	}
-	    }
 	    void make_hash(){
 	    	String aut=new String();
 	    	int ct = -1;

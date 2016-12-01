@@ -1,48 +1,58 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class Query1 extends DefaultHandler {
-		Boolean iswww,isAuthor;
-		protected ArrayList<Record> recList = new ArrayList<Record>();
-		protected String tmpValue;
-		protected Record recTmp;
+		Boolean iswww=false,isAuthor=false;
+		private ArrayList<Record> recList = new ArrayList<Record>();
+		private String tmpValue;
+		private Record recTmp;
 		private Authors tmpAut;
-		protected int i=0;
-		protected Query1 q1=new Query1();
-		protected ArrayList<www> autList= new ArrayList<www>();
-		protected www autTmp;
+		private String title=new String();
+		private ArrayList<String> title_n=new ArrayList<String>();
+		public ArrayList<String> getTitle_n() {
+			return title_n;
+		}
+		public void setTitle_n(ArrayList<String> title_n) {
+			this.title_n = title_n;
+		}
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+			System.out.println(this.title);
+		}
+		private int found=0,ft=0;
+		private ArrayList<Authors> autList= new ArrayList<Authors>();
 	    public ArrayList<Record> getRecList() {
 	        return recList;
 	    }
-	    public ArrayList<www> getauthList() {
+	    public ArrayList<Authors> getauthList() {
 	        return autList;
 	    }
-	    private String author_s=new String();
+	    private ArrayList<String> author_s=new ArrayList<String>();
 	    
 	    int a,au,d;
 	    
-	    public String getAuthor_s() {
+	    public ArrayList<String> getAuthor_s() {
 			return author_s;
 		}
-		public void setAuthor_s(String author_s) {
-			this.author_s = author_s;
+		public void setAuthor_s(ArrayList<String> author) {
+			this.author_s = author;
 		}
 	    
 	    @Override
 	    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-	    	i++;
 	    	if (qName.equalsIgnoreCase("article")) {
 	        	recTmp=new Record();
-	            //recTmp.setJournal(attributes.getValue("journal"));
 	        }
-	    	if (qName.equalsIgnoreCase("www")) {
-	    		autTmp=new www();
+	    	if (qName.equalsIgnoreCase("www")){
+	    		tmpAut=new Authors();
 	            au=1;
 	        }
 	    }
@@ -53,19 +63,18 @@ public class Query1 extends DefaultHandler {
 	    	if(au==1)
 	    	{
 	    		if(qName.equalsIgnoreCase("author")){
-	    			autTmp.setAuthor(tmpValue);
-	    			//System.out.println(autTmp);
+	    			tmpAut.setNames(tmpValue);
+	    			iswww = true;
+	    			isAuthor = true;
 			    }
 	    	}
-	    	if (qName.equalsIgnoreCase("www")) {
-    			autList.add(autTmp);
-    		}
 	    	if(qName.equalsIgnoreCase("author")){ 
-	    		a=find_author(tmpValue);
+	    		find_author(tmpValue);
 		    }
-	    	if (a==1){
-	    		isAuthor = true;
-	    		iswww = true;
+	    	if (qName.equalsIgnoreCase("title")) {
+    			find_title(tmpValue,this.getTitle_n());
+    		}
+	    	if (found==1||ft==1){
 	    		if(qName.equalsIgnoreCase("author")){
 	    			recTmp.addAuthor(tmpValue);
 	    		}
@@ -84,35 +93,45 @@ public class Query1 extends DefaultHandler {
 	    		if (qName.equalsIgnoreCase("year")) {
 	    			recTmp.setYear(Integer.parseInt(tmpValue));
 	    		}
+	    		if (qName.equalsIgnoreCase("journal")) {
+	    			recTmp.setJournal(tmpValue);;
+	    		}
 	    		if (qName.equalsIgnoreCase("url")) {
 	    			recTmp.setUrl(tmpValue);
 	    			d=1;
 	    		}
 	    	}
-	        //System.out.println(i);
 	    	if(d==1)
 	    		System.out.println(recTmp.toString());
-	        //
 	    }
 
 	    @Override
 	    public void characters(char ch[], int start, int length) throws SAXException {
 	    	tmpValue = new String(ch, start, length);
-	    	
-	    	if(iswww && isAuthor){
-	    		if(tmpAut.getMap_val()==-1){
-	    			tmpAut.setMap_val(tmpAut.getN());
-	    		}
-	    	}
-	    	isAuthor=false;
 	    }
 	    
-	    int find_author(String author){
-	    	if(author_s.equalsIgnoreCase(author)){
-	    		System.out.println("Found");
-	    		return 1;
+	    void find_author(String author){
+	    	found=0;
+	    	for(int i=0;i<author_s.size();++i){
+	    		if(author_s.get(i).equalsIgnoreCase(author)){
+	    			found=1;
+	    		}
 	    	}
-	    	else
-	    		return 0;
+	    }
+	    
+	    void find_title(String s,ArrayList<String> title){
+	    	ft=0;
+	    	for(int i=0;i<this.getTitle_n().size();++i){
+	    		if(s.contains(title.get(i))){
+	    			ft=1;
+	    		}
+	    	}
+	    }
+	    
+	    public void sort(){
+	    	Collections.sort(recList,Record.rec_c);
+	    	for(Record rec1: recList){
+				System.out.println(rec1);
+		   }
 	    }
 }
